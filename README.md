@@ -1,8 +1,8 @@
 # dataStructure_Project2
 ## command:
 	(in linux)
-	1. g++ -std=c++11 project1.cpp -o project1
-	2. ./project1 // 執行
+	1. g++ -std=c++11 project2.cpp -o project2
+	2. ./project2 // 執行
 
 ## 執行結果：(example)
 	cycle:  0
