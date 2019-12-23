@@ -4,7 +4,7 @@ command:
 1. g++ -std=c++11 project1.cpp -o project1
 2. ./project1 // 執行
 
-執行結果：(example1)
+執行結果：(example)
 =================================================================
 	cycle:  0
 	
@@ -100,15 +100,16 @@ command:
 	BUFFER:  NUL NUL NUL NUL
 	release cycle:NUL
 
-example1:
+example:
 -----------------------------------------------------------------
-		li R1,0
-		li R2,4
-	Loop:
-		beq R1,R2,End
-		subi R2,R2,1
-		beq R0,R0,Loop
-	End:
+	addi F1,F2,1
+	sub F1,F3,F4
+	div F1,F2,F3
+	mul F2,F3,F4
+	add F2,F4,F2
+	addi F4,F1,2
+	mul F5,F5,F5
+	add F1,F4,F4
 
 系統流程：
 =================================================================
