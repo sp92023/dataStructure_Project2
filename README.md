@@ -101,7 +101,6 @@ command:
 	release cycle:NUL
 
 ## example:
------------------------------------------------------------------
 	addi F1,F2,1
 	sub F1,F3,F4
 	div F1,F2,F3
