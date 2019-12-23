@@ -4,8 +4,7 @@ command:
 1. g++ -std=c++11 project1.cpp -o project1
 2. ./project1 // 執行
 
-執行結果：(example)
-=================================================================
+## 執行結果：(example)
 	cycle:  0
 	
 	RF
@@ -100,7 +99,7 @@ command:
 	BUFFER:  NUL NUL NUL NUL
 	release cycle:NUL
 
-## example:
+### example:
 	addi F1,F2,1
 	sub F1,F3,F4
 	div F1,F2,F3
@@ -110,13 +109,9 @@ command:
 	mul F5,F5,F5
 	add F1,F4,F4
 
-系統流程：
-=================================================================
+## 系統流程：
 	1. 讀擋
 	2. 讀擋完成後將資料存成以下結構
-	vector<string> loadInstName; // 紀錄每個register的名字
-	vector<int> loadInstNumber; // 紀錄每個register的值
-
 	// 將instruction分別記錄以下結構 ex: add R1,R2,R3
 	// instFirst會記錄R1
 	// instSecond會記錄R2
@@ -125,26 +120,29 @@ command:
 	vector<string> instFirst;
 	vector<string> instSecond;
 	vector<string> instThird;
-	vector<string> loopName;
 	vector<string> instName;
-	vector<int> instLocation;
-	vector<int> loopLocation;
-	string first, second, third;
 	
-	struct Entry { // prediction資料儲存結構
-		vector<int> outcome;
-		vector<int> state; // 0:00, 1:01, 2:10, 3:11
-		vector<int> st; // 0:SN, 1:WN, 2:WT, 3:ST
-		int count = 0;
-	};
-
-	3. 資料儲存好以後，開始模擬組合語言執行流程，對branch去做預測
+	vector<string> regName; // 紀錄每個register的名字
+	vector<int> regValue; // 紀錄每個register的值
+	vector<vector<string> > addRs;
+	vector<vector<string> > mulRs;
+	vector<string> rat;
+	string first, second, third;
+	int cycle = 0;
+	vector<string> addBuffer; // 0:RS, 1:operation, 2:result, 3:cycle, 4:tag
+	// buffer內存五個值，第一個存RAT所對應的RS，第二個存式子，第三個存執行後的結果，第四個存在第幾個cycle會write back，第五個存tag
+	vector<string> mulBuffer;
+	vector<int> ratTag;
+	vector<int> addTag;
+	vector<int> mulTag;
+	
+	3. 資料儲存好以後，開始執行tomasulo
 	4. 輸出結果
 
-Function：
-=================================================================
+## Function：
 
-* do2BitHistroy() // 做branch prediction
-* returnLoadValue() // 回傳register的值
-* returnLoop() // 回傳loop的位置，以便branch到那個位置
-* isExist() // 判斷register是否存在
+* bool addRSisEnough(), bool mulRSisEnough() // 判斷RS裡面是否有空間可以issue
+* int returnAddRsloca(), int returnMulRsloca() // 當RS裡面有空間可以issue時，回傳所要儲存的location資訊
+* pair<bool, int> addRsisReady(), pair<bool, int> mulRsisReady() // 判斷RS裡面，是否可以做dispatch(沒有RSX在RS裡面)，如果有已經準備完成的RS，回傳true並回傳RS location
+* void addRsValueUpdate(), void mulRsValueUpdate() // buffer釋出後，更新RAT和RS裡面的資訊
+* string ifHaveRat() // 當RAT裡面有值，拿取RAT裡面資訊，否則直接使用RF裡面的值
