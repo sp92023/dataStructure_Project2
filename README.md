@@ -37,7 +37,8 @@ command:
 	release cycle:NUL
 
 =================================
- 	cycle:  1
+ 	
+	cycle:  1
 
 	RF
 	F1:   0
@@ -68,6 +69,7 @@ command:
 	release cycle:NUL
 	
 =================================
+	
 	cycle: 66
 
 	RF
