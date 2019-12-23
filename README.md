@@ -100,7 +100,7 @@ command:
 	BUFFER:  NUL NUL NUL NUL
 	release cycle:NUL
 
-example:
+## example:
 -----------------------------------------------------------------
 	addi F1,F2,1
 	sub F1,F3,F4
