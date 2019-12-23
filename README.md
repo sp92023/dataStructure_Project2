@@ -6,67 +6,97 @@ command:
 
 執行結果：(example1)
 =================================================================
-  cycle:  0
+	cycle:  0
+	
+	RF
+	F1:   0
+	F2:   2
+	F3:   4
+	F4:   6
+	F5:   8
 
-  RF
-  F1:   0
-  F2:   2
-  F3:   4
-  F4:   6
-  F5:   8
+	RAT
+	F1: NUL  -1
+	F2: NUL  -1
+ 	F3: NUL  -1
+	F4: NUL  -1
+	F5: NUL  -1
 
-  RAT
-  F1: NUL  -1
-  F2: NUL  -1
-  F3: NUL  -1
-  F4: NUL  -1
-  F5: NUL  -1
+	ADD_RS
+	RS 1: NUL NUL NUL   0
+	RS 2: NUL NUL NUL   0
+	RS 3: NUL NUL NUL   0
+	BUFFER:  NUL NUL NUL NUL
+	release cycle:NUL
 
-  ADD_RS
-  RS 1: NUL NUL NUL   0
-  RS 2: NUL NUL NUL   0
-  RS 3: NUL NUL NUL   0
-  BUFFER:  NUL NUL NUL NUL
-  release cycle:NUL
+	
+	MUL_RS
+	RS 4: NUL NUL NUL   0
+	RS 5: NUL NUL NUL   0
+	BUFFER:  NUL NUL NUL NUL
+	release cycle:NUL
 
+=================================
+ 	cycle:  1
 
-  MUL_RS
-  RS 4: NUL NUL NUL   0
-  RS 5: NUL NUL NUL   0
-  BUFFER:  NUL NUL NUL NUL
-  release cycle:NUL
+	RF
+	F1:   0
+	F2:   2
+	F3:   4
+	F4:   6
+	F5:   8
 
+	RAT
+	F1: RS1   0
+	F2: NUL  -1
+	F3: NUL  -1
+	F4: NUL  -1
+	F5: NUL  -1
 
-  =================================
-  cycle:  1
-
-  RF
-  F1:   0
-  F2:   2
-  F3:   4
-  F4:   6
-  F5:   8
-
-  RAT
-  F1: RS1   0
-  F2: NUL  -1
-  F3: NUL  -1
-  F4: NUL  -1
-  F5: NUL  -1
-
-  ADD_RS
-  RS 1:   +   2   1   0
-  RS 2: NUL NUL NUL   0
-  RS 3: NUL NUL NUL   0
-  BUFFER:  NUL NUL NUL NUL
-  release cycle:NUL
+	ADD_RS
+	RS 1:   +   2   1   0
+	RS 2: NUL NUL NUL   0
+	RS 3: NUL NUL NUL   0
+	BUFFER:  NUL NUL NUL NUL
+	release cycle:NUL
 
 
-  MUL_RS
-  RS 4: NUL NUL NUL   0
-  RS 5: NUL NUL NUL   0
-  BUFFER:  NUL NUL NUL NUL
-  release cycle:NUL
+	MUL_RS
+	RS 4: NUL NUL NUL   0
+	RS 5: NUL NUL NUL   0
+	BUFFER:  NUL NUL NUL NUL
+	release cycle:NUL
+	
+=================================
+	cycle: 66
+
+	RF
+	F1:   4
+	F2:  30
+	F3:   4
+	F4:   2
+	F5:  64
+
+	RAT
+	F1: NUL   0
+	F2: NUL   1
+	F3: NUL  -1
+	F4: NUL   1
+	F5: NUL   1
+
+	ADD_RS
+	RS 1: NUL NUL NUL   2
+	RS 2: NUL NUL NUL   2
+	RS 3: NUL NUL NUL   1
+	BUFFER:  NUL NUL NUL NUL
+	release cycle:NUL
+
+
+	MUL_RS
+	RS 4: NUL NUL NUL   2
+	RS 5: NUL NUL NUL   1
+	BUFFER:  NUL NUL NUL NUL
+	release cycle:NUL
 
 example1:
 -----------------------------------------------------------------
