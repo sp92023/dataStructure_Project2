@@ -146,3 +146,71 @@
 * pair<bool, int> addRsisReady(), pair<bool, int> mulRsisReady() // 判斷RS裡面，是否可以做dispatch(沒有RSX在RS裡面)，如果有已經準備完成的RS，回傳true並回傳RS location
 * void addRsValueUpdate(), void mulRsValueUpdate() // buffer釋出後，更新RAT和RS裡面的資訊
 * string ifHaveRat() // 當RAT裡面有值，拿取RAT裡面資訊，否則直接使用RF裡面的值
+
+#### 讀檔：
+	for (int i = 0; i < inputContent.size(); i++) {
+		for (int j = 0; j < inputContent[i].size(); j++) {
+			if (inputContent[i][j] >= 'a'&&inputContent[i][j] <= 'z') {
+				string inst;
+				int l = 0;
+				for (int k = j; k < inputContent[i].size(); k++) {
+					if (inputContent[i][k] == ' ') {
+						//continue;
+						l = ++k;
+						break;
+					}
+					inst.push_back(inputContent[i][k]);
+				}
+				//cout << inst << endl;
+				if (inst == "addi") {
+					for (; l < inputContent[i].size(); l++) {
+						if (inputContent[i][l] == ',') {
+							for (int m = ++l; m < inputContent[i].size(); m++) {
+								if (inputContent[i][m] == ',') {
+									for (int n = ++m; n < inputContent[i].size(); n++) {
+										third.push_back(inputContent[i][n]);
+									}
+									instThird.push_back(third);
+									if (atoi(third.c_str()) == 0)
+										regName.push_back(third);
+									third.clear();
+									m = inputContent[i].size();
+									break;
+								}
+								second.push_back(inputContent[i][m]);
+							}
+							instSecond.push_back(second);
+							if (atoi(third.c_str()) == 0)
+								regName.push_back(second);
+							second.clear();
+							l = inputContent[i].size();
+							break;
+						}
+						first.push_back(inputContent[i][l]);
+					}
+					instFirst.push_back(first);
+					if (atoi(third.c_str()) == 0)
+						regName.push_back(first);
+					instName.push_back(inst);
+					first.clear();
+					//for (int m = 0; m < regName.size(); m++) {
+					//	cout << regName[m] << " ";
+					//}
+					//cout << endl;
+					sort(regName.begin(), regName.end());
+					regName.erase(unique(regName.begin(), regName.end()), regName.end());
+					//for (int m = 0; m < regName.size(); m++) {
+					//	cout << regName[m] << " ";
+					//}
+					//cout << endl;
+				}
+				else if (inst == "add") {
+					...
+				}
+				inst.clear();
+				break;
+			}
+		}
+	}
+	storeValue()
+	資料紀錄方式如上所述
