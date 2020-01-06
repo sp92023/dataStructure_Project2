@@ -214,3 +214,178 @@
 	}
 	storeValue()
 	資料紀錄方式如上所述
+
+#### initial：
+	for (int i = 0; i < regName.size(); i++) {
+		regValue.push_back(i * 2);
+		ratTag.push_back(-1);
+	}
+	vector<string> rs;
+	for (int i = 0; i < 3; i++)
+		rs.push_back("NUL");
+	for (int i = 0; i < 3; i++) { // addRS
+		addRs.push_back(rs);
+		addTag.push_back(0);
+	}
+	for (int i = 0; i < 2; i++) { // mulRS
+		mulRs.push_back(rs);
+		mulTag.push_back(0);
+	}
+	for (int i = 0; i < regName.size(); i++) {
+		rat.push_back("NUL");
+	}
+	for (int i = 0; i < 5; i++) {
+		addBuffer.push_back("NUL");
+		mulBuffer.push_back("NUL");
+	}
+	printAll();
+	initial所有需要的空間
+
+#### execute：
+	int i = 0;
+	while (i < instName.size()) {
+		cycle++;
+		bool valueUpdate = false;
+		pair<bool, int> addPair, mulPair, addPair1;
+		if (addBuffer[0] == "NUL") { // if buffer is empty
+			addPair = addRsisReady(cycle);
+		}
+		else if (addBuffer[0] != "NUL") { // if buffer need to release
+			if (stoi(addBuffer[3]) == cycle) {
+				addRsValueUpdate();
+				addPair = addRsisReady(cycle);
+				valueUpdate = true;
+			}
+		}
+
+		if (mulBuffer[0] == "NUL") {
+			mulPair = mulRsisReady(cycle);
+		}
+		else if (mulBuffer[0] != "NUL") {
+			if (stoi(mulBuffer[3]) == cycle) {
+				mulRsValueUpdate();
+				mulPair = mulRsisReady(cycle);
+				addPair1 = addRsisReady(cycle);
+				valueUpdate = true;
+			}
+		}
+
+		if (instName[i] == "add" && addRSisEnough() == true) {
+			int loca = returnAddRsloca();
+			if (loca != -1) { // if inst cannot issue to RS (RS has no space to issue)
+				addRs[loca][0] = "+";
+				addRs[loca][1] = ifHaveRat(instSecond[i]);
+				addRs[loca][2] = ifHaveRat(instThird[i]);
+
+				string r = "RS";
+				r = r + to_string(loca + 1);
+				rat[returnRATloca(instFirst[i])] = r;
+				ratTag[returnRATloca(instFirst[i])] = addTag[loca];
+
+				printAll();
+				i++;
+			}
+		}
+		else if (instName[i] == "add" && addRSisEnough() == false) {
+			if (addPair.first || mulPair.first || valueUpdate) {
+				printAll();
+			}
+		}
+		else if (instName[i] == "addi" && addRSisEnough() == true) {
+			...
+		}
+		
+		if (addPair.first) {
+			for (int j = 0; j < 3; j++) {
+				addRs[addPair.second][j] = "NUL";
+			}
+		}
+		if (addPair1.first) {
+			for (int j = 0; j < 3; j++) {
+				addRs[addPair1.second][j] = "NUL";
+			}
+		}
+		if (mulPair.first) {
+			for (int j = 0; j < 3; j++) {
+				mulRs[mulPair.second][j] = "NUL";
+			}
+		}
+
+		//printAll();
+	}
+
+	bool finished = false;
+	//bool finished = true;
+	while (!finished) {
+		cycle++;
+		pair<bool, int> addPair, mulPair, addPair1;
+		if (addBuffer[0] == "NUL") { // if buffer is empty
+			addPair = addRsisReady(cycle);
+			if (addPair.first) {
+				for (int j = 0; j < 3; j++) {
+					addRs[addPair.second][j] = "NUL";
+				}
+				printAll();
+			}
+		}
+		else if (addBuffer[0] != "NUL") { // if buffer need to release
+			if (stoi(addBuffer[3]) == cycle) {
+				addRsValueUpdate();
+				addPair = addRsisReady(cycle);
+				if (addPair.first) {
+					for (int j = 0; j < 3; j++) {
+						addRs[addPair.second][j] = "NUL";
+					}
+				}
+				printAll();
+			}
+		}
+
+		if (mulBuffer[0] == "NUL") {
+			mulPair = mulRsisReady(cycle);
+			if (mulPair.first) {
+				for (int j = 0; j < 3; j++) {
+					mulRs[mulPair.second][j] = "NUL";
+				}
+				printAll();
+			}
+		}
+		else if (mulBuffer[0] != "NUL") {
+			if (stoi(mulBuffer[3]) == cycle) {
+				mulRsValueUpdate();
+				mulPair = mulRsisReady(cycle);
+				if (mulPair.first) {
+					for (int j = 0; j < 3; j++) {
+						mulRs[mulPair.second][j] = "NUL";
+					}
+				}
+
+				addPair1 = addRsisReady(cycle);
+				if (addPair1.first) {
+					for (int j = 0; j < 3; j++) {
+						addRs[addPair1.second][j] = "NUL";
+					}
+				}
+				printAll();
+			}
+		}
+
+		//printAll();
+		finished = isFinished();
+	}
+	
+	一開始先判斷buffer是否為空
+	如果buffer是空著的
+	利用addRsisReady()、mulRsisReady()去查看是否有已經ready的RS可以丟到ALU去執行
+	如果buffer不是空著的
+	查看當下的cycle，buffer是否已經完成並可以write back
+	如果可以則執行write back
+	檢查RS裡面有沒有ready的RS
+	
+	根據instruction來執行每一個步驟
+	利用addRSisEnough()來判斷RS裡面是否有位置可以issue
+	如果有才做執行
+	如果沒有則cycle++
+	最後如果有RS已經丟進ALU去執行
+	則將那一行的RS清除
+
