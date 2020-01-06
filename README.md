@@ -110,8 +110,8 @@
 	add F1,F4,F4
 
 ## 系統流程：
-	1. 讀擋
-	2. 讀擋完成後將資料存成以下結構
+	1. 讀檔
+	2. 讀檔完成後將資料存成以下結構
 	// 將instruction分別記錄以下結構 ex: add R1,R2,R3
 	// instFirst會記錄R1
 	// instSecond會記錄R2
